@@ -30,14 +30,14 @@ jobs:
 
       - name: Read Version.json
         id: version
-        uses: juliangruber/read-file-action@v1
+        uses: juliangruber/read-file-action@v1.1.6
         with:
           path: ./Version.json
 
       - name: print
         run: 
           echo "${{ steps.version.outputs.content }}"
-          echo "${{ steps.version.outputs.content.BackEnd }}"
+          echo "${{ fromJson(steps.version.outputs.content).BackEnd }}"
 
       - name: Patch files
         uses: onlyutkarsh/patch-files-action@v1.0.5
@@ -48,6 +48,6 @@ jobs:
           files: |
             ./Version.json
           patch-syntax: |
-            = /BackEnd => 'branch:${{ github.ref_name }}'
+            = /BackEnd => "branch:${{ github.ref_name }}"
 
 
