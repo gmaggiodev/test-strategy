@@ -46,7 +46,7 @@ jobs:
           name: utkarsh
         with:
           files: |
-            Version.json
+            ./Version.json
           patch-syntax: |
             = /BackEnd => 'branch:${{ github.ref_name }}'
 
