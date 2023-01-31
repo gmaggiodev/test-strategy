@@ -1,3 +1,4 @@
 {
-  "BackEnd": "branch:develop"
+  "BackEnd": "branch:sbagliato",
+  "FrontEnd": "branch:local"
 }
