@@ -39,8 +39,8 @@ jobs:
           echo "versionJson=$content" >> $GITHUB_OUTPUT
 
       - name: Patch files
-        if: "${{fromJson(steps.set_var.outputs.versionJson).BackEnd}}" != "branch:${{ github.ref_name }}"
         uses: onlyutkarsh/patch-files-action@v1.0.5
+        if: "${{fromJson(steps.set_var.outputs.versionJson).BackEnd}}" != "branch:${{ github.ref_name }}"
         env:
           name: utkarsh
         with:
