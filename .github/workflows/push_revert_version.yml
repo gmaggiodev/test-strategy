@@ -28,19 +28,20 @@ jobs:
         with:
           token: ${{ secrets.ACTIONS }}
 
-      - id: set_var
-        run: |
-          content=`cat ./Version.json`
-          echo "versionJson=$content" >> $GITHUB_OUTPUT
+      - name: Read Version.json
+        id: version
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./Version.json
 
       - name: print
         run: 
-          echo ${{ steps.set_var.outputs.versionJson }}
-          echo ${{fromJson(steps.set_var.outputs.versionJson).BackEnd}}
+          echo ${{ steps.version.outputs.content }}
+          echo ${{ steps.version.outputs.content.BackEnd }}
 
       - name: Patch files
         uses: onlyutkarsh/patch-files-action@v1.0.5
-        if: ${{fromJson(steps.set_var.outputs.versionJson).BackEnd}} != "branch:${{ github.ref_name }}"
+        if: ${{steps.version.outputs.content.BackEnd}} != "branch:${{ github.ref_name }}"
         env:
           name: utkarsh
         with:
