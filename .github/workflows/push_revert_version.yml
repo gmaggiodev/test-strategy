@@ -40,6 +40,8 @@ jobs:
 
       - name: Patch files
         uses: onlyutkarsh/patch-files-action@v1.0.0
+        env:
+          name: utkarsh
         with:
           files: |
             Version.json
