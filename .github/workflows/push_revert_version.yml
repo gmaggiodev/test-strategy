@@ -36,9 +36,10 @@ jobs:
           content="${content//$'\n'/'%0A'}"
           content="${content//$'\r'/'%0D'}"
           # end of optional handling for multi line json
-          echo "::set-output name=versionJson::$content"
+          echo "versionJson=$content" >> $GITHUB_OUTPUT
 
       - name: Patch files
+        if: "${{fromJson(steps.set_var.outputs.versionJson).BackEnd}}" != "branch:${{ github.ref_name }}"
         uses: onlyutkarsh/patch-files-action@v1.0.5
         env:
           name: utkarsh
@@ -46,4 +47,6 @@ jobs:
           files: |
             Version.json
           patch-syntax: |
-            = /BackEnd => 'branch:"${{ github.ref_name }}"'
+            = /BackEnd => 'branch:${{ github.ref_name }}'
+
+
