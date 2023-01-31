@@ -39,7 +39,7 @@ jobs:
           echo "::set-output name=versionJson::$content"
 
       - name: Patch files
-        uses: onlyutkarsh/patch-files-action@v1.0.0
+        uses: onlyutkarsh/patch-files-action@v1.0.5
         env:
           name: utkarsh
         with:
