@@ -38,16 +38,24 @@ jobs:
           echo "${{ steps.version.outputs.content }}"
           echo "${{ fromJson(steps.version.outputs.content).BackEnd }}"
 
-      - name: Patch files
-        uses: onlyutkarsh/patch-files-action@v1.0.5
-        if: ${{steps.version.outputs.content.BackEnd}} != "branch:${{ github.ref_name }}"
-        env:
-          name: utkarsh
+      # - name: Patch files
+      #   uses: onlyutkarsh/patch-files-action@v1.0.5
+      #   if: ${{steps.version.outputs.content.BackEnd}} != "branch:${{ github.ref_name }}"
+      #   env:
+      #     name: utkarsh
+      #   with:
+      #     files: |
+      #       ./Version.json
+      #     patch-syntax: |
+      #       = /BackEnd => "branch:${{ github.ref_name }}"
+
+      - name: Update Version.json version
+        uses: jossef/action-set-json-field@v2.1
         with:
-          files: |
-            ./Version.json
-          patch-syntax: |
-            = /BackEnd => "branch:${{ github.ref_name }}"
+          file: Version.json
+          field: BackEnd
+          value: "branch:${{ github.ref_name }}"
+
 
       - name: Verify Changed files
         uses: tj-actions/verify-changed-files@v13
