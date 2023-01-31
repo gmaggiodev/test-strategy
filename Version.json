@@ -1,4 +1,1 @@
-{
-  "BackEnd": "branch:sbagliato",
-  "FrontEnd": "branch:local"
-}
+{"BackEnd":"branch:develop","FrontEnd":"branch:local"}
