@@ -1,4 +1,4 @@
 {
-  "BackEnd": "branch:TCG-xyz",
+  "BackEnd": "branch:hotfix-22.2",
   "FrontEnd": "branch:local"
 }
