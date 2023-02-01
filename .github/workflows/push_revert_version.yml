@@ -40,17 +40,6 @@ jobs:
           echo "${{ fromJson(steps.version.outputs.content).BackEnd }}"
           echo "${{github.actor}}"
 
-      # - name: Patch files
-      #   uses: onlyutkarsh/patch-files-action@v1.0.5
-      #   if: ${{steps.version.outputs.content.BackEnd}} != "branch:${{ github.ref_name }}"
-      #   env:
-      #     name: utkarsh
-      #   with:
-      #     files: |
-      #       ./Version.json
-      #     patch-syntax: |
-      #       = /BackEnd => "branch:${{ github.ref_name }}"
-
       - name: Update Version.json version
         uses: jossef/action-set-json-field@v2.1
         if: ${{steps.version.outputs.content.BackEnd}} != "branch:${{ github.ref_name }}"
