@@ -1,4 +1,4 @@
 {
-  "BackEnd": "2.6.5.1",
+  "BackEnd": "branch:hotfix-22.2",
   "FrontEnd": "branch:local"
 }
