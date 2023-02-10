@@ -28,23 +28,24 @@ jobs:
         with:
           token: ${{ secrets.ACTIONS }}
 
-      - name: Read Version.json
+      - name: Read Versions.json
         id: version
         uses: juliangruber/read-file-action@v1.1.6
         with:
-          path: ./Version.json
+          path: PreRequirements/Versions.json
 
       - name: print variables
         run: 
           echo "${{ steps.version.outputs.content }}"
           echo "${{ fromJson(steps.version.outputs.content).BackEnd }}"
           echo "${{github.actor}}"
-
-      - name: Update Version.json version
+          echo startsWith(${{steps.version.outputs.content.BackEnd}}, "branch:")
+          
+      - name: Update Versions.json version
         uses: jossef/action-set-json-field@v2.1
-        if: startsWith(${{steps.version.outputs.content.BackEnd}}, "branch:" && ${{steps.version.outputs.content.BackEnd}} != "branch:${{ github.ref_name }}"
+        if: startsWith(${{steps.version.outputs.content.BackEnd}}, "branch:") && ${{steps.version.outputs.content.BackEnd}} != "branch:${{ github.ref_name }}"
         with:
-          file: Version.json
+          file: PreRequirements/Versions.json
           field: BackEnd
           value: "branch:${{ github.ref_name }}"
 
@@ -53,7 +54,7 @@ jobs:
         id: verify-changed-files
         with:
           files: |
-            Version.json
+            PreRequirements/Versions.json
 
       - name: Run step only when any of the above files change.
         if: steps.verify-changed-files.outputs.files_changed == 'true'
