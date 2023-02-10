@@ -5,10 +5,8 @@ name: CI
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "master" branch
-  pull_request:
-    types: [closed]
+  push:
     branches: 
-      - 'master'
       - 'hotfix-**'
       - 'develop'
 
@@ -19,6 +17,7 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
+    if: github.event.commits[0].author.name != 'github-actions'
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -27,22 +26,43 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 2      
           token: ${{ secrets.ACTIONS }}
-        
-      - name: Get changed files in the docs folder
-        id: changed-files-specific
-        uses: tj-actions/changed-files@v35
-        with:
-          files: Version.json
 
-      - name: Run step if any file(s) in the docs folder change
-        if: steps.changed-files-specific.outputs.any_changed == 'true'
+      - name: Read Versions.json
+        id: version
+        uses: juliangruber/read-file-action@v1.1.6
+        with:
+          path: PreRequirements/Versions.json
+
+      - name: print variables
+        run: 
+          echo "${{ steps.version.outputs.content }}"
+          echo "${{ fromJson(steps.version.outputs.content).BackEnd }}"
+          echo "${{github.actor}}"
+          echo startsWith(${{steps.version.outputs.content.BackEnd}}, "branch:")
+          
+
+      - name: Update Versions.json version
+        uses: jossef/action-set-json-field@v2.1
+        if: startsWith(${{steps.version.outputs.content.BackEnd}}, "branch:") && ${{steps.version.outputs.content.BackEnd}} != "branch:${{ github.ref_name }}"
+        with:
+          file: PreRequirements/Versions.json
+          field: BackEnd
+          value: "branch:${{ github.ref_name }}"
+
+      - name: Verify Changed files
+        uses: tj-actions/verify-changed-files@v13
+        id: verify-changed-files
+        with:
+          files: |
+            PreRequirements/Versions.json
+
+      - name: Run step only when any of the above files change.
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git checkout HEAD~1 -- Version.json
           git add .
-          git commit -m "restore version"
+          git commit -m "automatic fix version"
           git push
           echo test, and deploy your project.
