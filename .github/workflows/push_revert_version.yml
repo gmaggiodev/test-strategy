@@ -42,7 +42,7 @@ jobs:
           echo "${{ steps.version.outputs.content }}"
           echo "${{ fromJson(steps.version.outputs.content).BackEnd }}"
           echo "${{github.actor}}"
-          echo "${{ startsWith(steps.version.outputs.content.BackEnd, 'branch:')}}"
+          echo "${{ contains(steps.version.outputs.content.BackEnd, 'branch:')}}"
           echo "$EXP_BRANCH"
           
       - name: Update Version.json version
