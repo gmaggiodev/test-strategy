@@ -10,6 +10,9 @@ on:
       - 'hotfix-**'
       - 'develop'
 
+env:
+  EXP_BRANCH: 'branch:${{ github.ref_name }}'
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -35,8 +38,6 @@ jobs:
           path: Version.json
 
       - name: print variables
-        env:
-          EXP_BRANCH: 'branch:${{ github.ref_name }}'
         run: 
           echo "${{ steps.version.outputs.content }}"
           echo "${{ fromJson(steps.version.outputs.content).BackEnd }}"
