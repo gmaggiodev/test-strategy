@@ -42,11 +42,11 @@ jobs:
           echo "1:${{ steps.version.outputs.content }}"
           echo "2:${{ fromJson(steps.version.outputs.content).BackEnd }}"
           echo "3:${{github.actor}}"
-          echo "4:${{ contains(fromJson(steps.version.outputs.content).BackEnd, 'branch:')}}"
+          echo "4:${{ startsWith(fromJson(steps.version.outputs.content).BackEnd, 'branch:')}}"
           
       - name: Update Version.json version
-        uses: jossef/action-set-json-field@v2.1
         if: ${{ startsWith(fromJson(steps.version.outputs.content).BackEnd, 'branch:') && fromJson(steps.version.outputs.content).BackEnd != env.EXP_BRANCH}}"
+        uses: jossef/action-set-json-field@v2.1
         with:
           file: Version.json
           field: BackEnd
