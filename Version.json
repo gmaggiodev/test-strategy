@@ -1,4 +1,4 @@
 {
-  "BackEnd": "branch:hotfix-22.2",
+  "BackEnd": "$EXP_BRANCH",
   "FrontEnd": "branch:local"
 }
