@@ -42,7 +42,7 @@ jobs:
           echo "1:${{ steps.version.outputs.content }}"
           echo "2:${{ fromJson(steps.version.outputs.content).BackEnd }}"
           echo "3:${{github.actor}}"
-          echo "4:${{ startsWith(fromJson(steps.version.outputs.content).BackEnd, 'branch:')}}"
+          echo "4:${{ startsWith(fromJson(steps.version.outputs.content).BackEnd, 'branch:') && fromJson(steps.version.outputs.content).BackEnd != env.EXP_BRANCH}}"
           
       - name: Update Version.json version
         if: ${{ startsWith(fromJson(steps.version.outputs.content).BackEnd, 'branch:') && fromJson(steps.version.outputs.content).BackEnd != env.EXP_BRANCH}}"
