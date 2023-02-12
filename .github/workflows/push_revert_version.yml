@@ -45,7 +45,7 @@ jobs:
           echo "4:${{ startsWith(fromJson(steps.version.outputs.content).BackEnd, 'branch:') && fromJson(steps.version.outputs.content).BackEnd != env.EXP_BRANCH}}"
           
       - name: Update Version.json version
-        if: ${{ startsWith(fromJson(steps.version.outputs.content).BackEnd, 'branch:') && fromJson(steps.version.outputs.content).BackEnd != env.EXP_BRANCH}}"
+        if: "${{ startsWith(fromJson(steps.version.outputs.content).BackEnd, 'branch:') && fromJson(steps.version.outputs.content).BackEnd != env.EXP_BRANCH}}"
         uses: jossef/action-set-json-field@v2.1
         with:
           file: Version.json
