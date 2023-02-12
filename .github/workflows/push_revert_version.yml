@@ -39,15 +39,14 @@ jobs:
 
       - name: print variables
         run: 
-          echo "1:${{ steps.version.outputs.content }}\n"
-          echo "2:${{ fromJson(steps.version.outputs.content).BackEnd }}\n"
-          echo "3:${{github.actor}}\n"
-          echo "4:${{ contains(fromJson(steps.version.outputs.content).BackEnd, 'branch:')}}\n"
-          echo "5:$EXP_BRANCH"
+          echo "1:${{ steps.version.outputs.content }}"
+          echo "2:${{ fromJson(steps.version.outputs.content).BackEnd }}"
+          echo "3:${{github.actor}}"
+          echo "4:${{ contains(fromJson(steps.version.outputs.content).BackEnd, 'branch:')}}"
           
       - name: Update Version.json version
         uses: jossef/action-set-json-field@v2.1
-        if: ${{ contains(steps.version.outputs.content.BackEnd, 'branch:') && steps.version.outputs.content.BackEnd != env.EXP_BRANCH}}"
+        if: ${{ startsWith(fromJson(steps.version.outputs.content).BackEnd, 'branch:') && fromJson(steps.version.outputs.content).BackEnd != env.EXP_BRANCH}}"
         with:
           file: Version.json
           field: BackEnd
