@@ -39,11 +39,11 @@ jobs:
 
       - name: print variables
         run: 
-          echo "${{ steps.version.outputs.content }}"
-          echo "${{ fromJson(steps.version.outputs.content).BackEnd }}"
-          echo "${{github.actor}}"
-          echo "${{ contains(steps.version.outputs.content.BackEnd, 'branch:')}}"
-          echo "$EXP_BRANCH"
+          echo "1:${{ steps.version.outputs.content }}\n"
+          echo "2:${{ fromJson(steps.version.outputs.content).BackEnd }}\n"
+          echo "3:${{github.actor}}\n"
+          echo "4:${{ contains(fromJson(steps.version.outputs.content).BackEnd) 'branch:')}}\n"
+          echo "5:$EXP_BRANCH"
           
       - name: Update Version.json version
         uses: jossef/action-set-json-field@v2.1
